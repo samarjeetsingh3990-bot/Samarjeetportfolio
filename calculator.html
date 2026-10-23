@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculator | Samarjeet Singh</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1b4d;--bg2:#10286b;--card:#12296e;--line:#2f50b8;--text:#fff;--muted:#c3d3ff;--gold:#ffd23f;--coral:#ff7a1a;--mint:#19d3ff;--lime:#7dff4f;--ink:#0a1b4d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;border-bottom:1px solid var(--line);background:rgba(10,27,77,.9)}
+.back{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:12px 12px 12px 3px;background:var(--gold);color:var(--ink);font-weight:700;transition:transform .2s,box-shadow .2s}
+.back:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--coral)}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.15rem}
+main{flex:1;display:grid;place-items:center;padding:32px 20px;text-align:center}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(2rem,6vw,3rem);font-weight:800;margin-bottom:6px}
+.sub{color:var(--muted);margin-bottom:28px}
+.calc{width:min(400px,100%);margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:10px 10px 0 var(--gold);animation:pop .5s cubic-bezier(.2,1.2,.3,1)}
+.screen{background:rgba(0,0,0,.35);border-radius:8px;padding:14px 18px;text-align:right;margin-bottom:16px;min-height:104px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hist{color:var(--muted);font-size:1rem;min-height:1.5rem;word-break:break-all}
+.out{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2.8rem;line-height:1.2;word-break:break-all}
+.out.sm{font-size:1.4rem}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.k{height:62px;border:0;border-radius:10px 10px 10px 3px;background:var(--bg2);color:var(--text);font:700 1.35rem "DM Sans",sans-serif;cursor:pointer;transition:transform .12s,filter .12s}
+.k:hover{filter:brightness(1.25);transform:translateY(-2px)}
+.k:active,.k.hit{transform:scale(.93)}
+.k.op{background:var(--coral);color:var(--ink)}
+.k.fn{background:var(--mint);color:var(--ink)}
+.k.eq{background:var(--gold);color:var(--ink)}
+.tip{color:var(--muted);font-size:.9rem;margin-top:22px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);background:rgba(10,27,77,.9)}
+@keyframes pop{from{opacity:0;transform:scale(.85) translateY(30px)}}
+.calm *{animation:none!important;transition:none!important}
+@media(max-width:480px){.k{height:56px}.out{font-size:2.3rem}header{padding:12px 16px}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<header>
+  <a class="back" href="index.html">&larr; Back to portfolio</a>
+  <span class="brand">Samarjeet Singh</span>
+</header>
+
+<main>
+  <div>
+    <h1>Calculator</h1>
+    <p class="sub">Built with HTML, CSS and JavaScript</p>
+    <div class="calc" aria-label="Calculator">
+      <div class="screen"><div class="hist" id="hist"></div><div class="out" id="out" aria-live="polite">0</div></div>
+      <div class="keys" id="keys"></div>
+    </div>
+    <p class="tip">Tip: you can also type numbers and + − * / on your keyboard. Enter is equals, Backspace deletes and Esc clears.</p>
+  </div>
+</main>
+
+<footer>&copy; <span id="year"></span> Samarjeet Singh</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+
+// ===== Calculator =====
+const KEYS = [["C","C","fn","Clear"],["⌫","back","fn","Backspace"],["%","%","fn","Percent"],["÷","/","op","Divide"],
+  ["7","7"],["8","8"],["9","9"],["×","*","op","Multiply"],["4","4"],["5","5"],["6","6"],["−","-","op","Subtract"],
+  ["1","1"],["2","2"],["3","3"],["+","+","op","Add"],["±","neg","fn","Plus or minus"],["0","0"],[".",".","","Decimal point"],["=","=","eq","Equals"]];
+$("#keys").innerHTML = KEYS.map(([l,k,c,a]) => `<button type="button" class="k ${c || ""}" data-k="${k}" aria-label="${a || l}">${l}</button>`).join("");
+const SYM = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+let K = { cur: "0", prev: null, op: null, fresh: false, hist: "", err: false };
+const fmt = n => String(parseFloat(n.toPrecision(12)));
+function compute(a, b, op) { a = +a; b = +b; return op === "+" ? a + b : op === "-" ? a - b : op === "*" ? a * b : b === 0 ? NaN : a / b; }
+function calcErr(h) { K = { cur: "Cannot divide by zero", prev: null, op: null, fresh: true, hist: h, err: true }; }
+function press(k) {
+  if (K.err) K = { cur: "0", prev: null, op: null, fresh: false, hist: "", err: false };
+  if (/^\d$/.test(k)) {
+    if (K.fresh) { K.cur = "0"; K.fresh = false; }
+    if (K.cur.replace(/[-.]/g, "").length < 14) K.cur = K.cur === "0" ? k : K.cur + k;
+  } else if (k === ".") {
+    if (K.fresh) { K.cur = "0"; K.fresh = false; }
+    if (!K.cur.includes(".")) K.cur += ".";
+  } else if ("+-*/".includes(k)) {
+    if (K.op && !K.fresh) {
+      const r = compute(K.prev, K.cur, K.op);
+      if (!isFinite(r)) { calcErr(K.prev + " " + SYM[K.op] + " " + K.cur); return render(); }
+      K.cur = fmt(r);
+    }
+    K.prev = K.cur; K.op = k; K.fresh = true; K.hist = K.prev + " " + SYM[k];
+  } else if (k === "=") {
+    if (!K.op) return;
+    const h = K.prev + " " + SYM[K.op] + " " + K.cur + " =", r = compute(K.prev, K.cur, K.op);
+    if (!isFinite(r)) { calcErr(h); return render(); }
+    K.cur = fmt(r); K.op = null; K.prev = null; K.fresh = true; K.hist = h;
+  } else if (k === "C") {
+    K = { cur: "0", prev: null, op: null, fresh: false, hist: "", err: false };
+  } else if (k === "back") {
+    if (K.fresh) return;
+    K.cur = K.cur.length > 1 && !(K.cur.length === 2 && K.cur[0] === "-") ? K.cur.slice(0, -1) : "0";
+  } else if (k === "neg") {
+    if (K.cur !== "0") K.cur = K.cur[0] === "-" ? K.cur.slice(1) : "-" + K.cur;
+  } else if (k === "%") {
+    K.cur = fmt(+K.cur / 100); K.fresh = true;
+  }
+  render();
+}
+function render() {
+  const out = $("#out");
+  out.textContent = K.cur; out.classList.toggle("sm", K.cur.length > 11);
+  $("#hist").textContent = K.hist;
+}
+$("#keys").addEventListener("click", e => { const b = e.target.closest("button"); if (b) press(b.dataset.k); });
+const KEYMAP = { Enter: "=", "=": "=", Backspace: "back", Escape: "C", c: "C", C: "C", "%": "%" };
+addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || (e.key === "Enter" && e.target.tagName === "BUTTON")) return;
+  const k = KEYMAP[e.key] || (/^[\d.+\-*/]$/.test(e.key) ? e.key : null);
+  if (!k) return;
+  e.preventDefault(); press(k);
+  const b = $(`#keys [data-k="${k}"]`); if (b) { b.classList.add("hit"); setTimeout(() => b.classList.remove("hit"), 120); }
+});
+render();
+$("#year").textContent = new Date().getFullYear();
+
+// ===== Background: twinkling stars, floating code symbols, shooting stars =====
+let calm = false; try { calm = localStorage.getItem("calm") === "1"; } catch (e) {}
+if (calm) document.documentElement.classList.add("calm");
+const cv = $("#bg"), cx = cv.getContext("2d"), rnd = n => Math.random() * n;
+const COLORS = ["#ffd23f", "#19d3ff", "#ff7a1a", "#7dff4f"], GLYPHS = ["</>", "{ }", "+", "−", "×", "÷", "=", "%", "01", "JS"];
+let W, H, S = [], G = [], SH = [];
+const glyph = init => ({ x: rnd(W), y: init ? rnd(H) : H + 30, vy: -(.2 + rnd(.4)), rot: rnd(6.28), vr: rnd(.012) - .006, size: 18 + rnd(26), c: COLORS[rnd(4) | 0], t: GLYPHS[rnd(GLYPHS.length) | 0], a: .14 + rnd(.2) });
+function size() {
+  const d = devicePixelRatio || 1; W = innerWidth; H = innerHeight;
+  cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
+  S = Array.from({ length: Math.min(130, W * H / 9000 | 0) }, () => ({ x: rnd(W), y: rnd(H), r: .4 + rnd(1.2), t: rnd(6.28), sp: .01 + rnd(.03) }));
+  G = Array.from({ length: Math.min(18, W * H / 55000 + 6 | 0) }, () => glyph(true));
+}
+function draw() {
+  cx.clearRect(0, 0, W, H); cx.fillStyle = "#fff";
+  for (const s of S) { s.t += s.sp; cx.globalAlpha = .4 + .6 * Math.abs(Math.sin(s.t)); cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 6.283); cx.fill(); }
+  cx.textAlign = "center"; cx.textBaseline = "middle";
+  for (let i = 0; i < G.length; i++) {
+    const g = G[i]; g.y += g.vy; g.rot += g.vr; if (g.y < -40) G[i] = glyph(false);
+    cx.save(); cx.translate(g.x, g.y); cx.rotate(g.rot); cx.globalAlpha = g.a; cx.fillStyle = g.c;
+    cx.font = `700 ${g.size}px "Bricolage Grotesque", monospace`; cx.fillText(g.t, 0, 0); cx.restore();
+  }
+  if (!calm && Math.random() < .008 && SH.length < 2) SH.push({ x: W * .2 + rnd(W * .8), y: rnd(H * .4), vx: -(9 + rnd(5)), vy: 5 + rnd(3) });
+  for (let i = SH.length - 1; i >= 0; i--) {
+    const s = SH[i]; s.x += s.vx; s.y += s.vy;
+    const tx = s.x - s.vx * 7, ty = s.y - s.vy * 7, g = cx.createLinearGradient(s.x, s.y, tx, ty);
+    g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    cx.globalAlpha = 1; cx.strokeStyle = g; cx.lineWidth = 2.2; cx.beginPath(); cx.moveTo(s.x, s.y); cx.lineTo(tx, ty); cx.stroke();
+    if (s.x < -100 || s.y > H + 100) SH.splice(i, 1);
+  }
+  cx.globalAlpha = 1;
+  if (!calm) requestAnimationFrame(draw);
+}
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); if (calm) draw(); }, 200); });
+size(); draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Clock | Samarjeet Singh</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1b4d;--bg2:#10286b;--card:#12296e;--line:#2f50b8;--text:#fff;--muted:#c3d3ff;--gold:#ffd23f;--coral:#ff7a1a;--mint:#19d3ff;--lime:#7dff4f;--ink:#0a1b4d}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;border-bottom:1px solid var(--line);background:rgba(10,27,77,.9)}
+.back{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:12px 12px 12px 3px;background:var(--gold);color:var(--ink);font-weight:700;transition:transform .2s,box-shadow .2s}
+.back:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--coral)}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.15rem}
+main{flex:1;padding:36px 20px 48px}
+.wrap{width:min(780px,100%);margin:0 auto}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(2rem,6vw,3rem);font-weight:800;text-align:center;margin-bottom:6px}
+.sub{color:var(--muted);margin-bottom:26px;text-align:center}
+.clock{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:34px 20px 26px;text-align:center;box-shadow:10px 10px 0 var(--mint);animation:pop .5s cubic-bezier(.2,1.2,.3,1)}
+.clock:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0;box-shadow:none;background:var(--bg)}
+.time{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(3rem,14vw,7.5rem);line-height:1;font-variant-numeric:tabular-nums;display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap}
+.hh{color:var(--gold);text-shadow:0 0 28px rgba(255,210,63,.45)}
+.mm{color:var(--mint);text-shadow:0 0 28px rgba(25,211,255,.45)}
+.ss{color:var(--coral);text-shadow:0 0 28px rgba(255,122,26,.45);display:inline-block}
+.ss.tick{animation:tick .4s}
+.col{color:var(--muted);margin:0 .06em;animation:blink 1s steps(1) infinite}
+.ampm{font-size:.28em;color:var(--lime);margin-left:.3em;letter-spacing:.04em}
+.date{margin-top:14px;font-size:1.15rem;color:var(--muted)}
+.greet{margin-top:4px;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.3rem;color:var(--lime)}
+.day{margin:22px auto 0;max-width:520px}
+.day .row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.pbar{height:10px;border-radius:5px;background:var(--bg2);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--coral));transition:width 1s linear}
+.ctrls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.chip{padding:9px 18px;border:2px solid var(--line);border-radius:999px;background:transparent;color:var(--text);font:700 .9rem "DM Sans",sans-serif;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--mint)}
+.chip[aria-pressed="true"]{background:var(--mint);border-color:var(--mint);color:var(--ink)}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-size:1.5rem;margin:40px 0 16px}
+.world{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.city{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;transition:transform .25s,box-shadow .25s}
+.city:hover{transform:translate(-4px,-4px);box-shadow:6px 6px 0 var(--gold)}
+.city small{color:var(--muted)}
+.city b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.7rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.city:nth-child(2) b{color:var(--gold)}.city:nth-child(3) b{color:var(--mint)}.city:nth-child(4) b{color:var(--lime)}.city:nth-child(1) b{color:var(--coral)}
+.alarm{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.alarm label{font-weight:700}
+.alarm input{padding:10px 12px;background:var(--bg2);border:2px solid var(--line);border-radius:8px;color:var(--text);font:inherit;color-scheme:dark}
+.alarm input:focus{outline:none;border-color:var(--gold)}
+.btn{padding:11px 22px;border:0;border-radius:10px 10px 10px 3px;background:var(--gold);color:var(--ink);font:700 1rem "DM Sans",sans-serif;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--coral)}
+.btn.stop{background:var(--coral)}
+.astat{flex-basis:100%;color:var(--muted)}
+.ring .clock,.clock.ring{animation:flash .6s steps(1) infinite}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);background:rgba(10,27,77,.9)}
+@keyframes pop{from{opacity:0;transform:scale(.9) translateY(30px)}}
+@keyframes tick{50%{transform:scale(1.15)}}
+@keyframes blink{50%{opacity:.15}}
+@keyframes flash{50%{background:#7a2a00;border-color:var(--coral)}}
+.calm *{animation:none!important;transition:none!important}
+@media(max-width:480px){header{padding:12px 16px}.clock{padding:26px 10px 20px}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<header>
+  <a class="back" href="index.html">&larr; Back to portfolio</a>
+  <span class="brand">Samarjeet Singh</span>
+</header>
+
+<main><div class="wrap">
+  <h1>Digital Clock</h1>
+  <p class="sub">Live time, world clocks and an alarm</p>
+
+  <section class="clock" id="clock" aria-label="Digital clock">
+    <div class="time" role="timer" aria-live="off">
+      <span class="hh" id="hh">00</span><span class="col">:</span><span class="mm" id="mm">00</span><span class="col" id="col2">:</span><span class="ss" id="ss">00</span><span class="ampm" id="ampm"></span>
+    </div>
+    <p class="date" id="date"></p>
+    <p class="greet" id="greet"></p>
+    <div class="day">
+      <div class="row"><span>Today</span><span id="pct">0% of the day done</span></div>
+      <div class="pbar"><i id="pbar"></i></div>
+    </div>
+    <div class="ctrls">
+      <button class="chip" id="b24" type="button" aria-pressed="false">24-hour</button>
+      <button class="chip" id="bsec" type="button" aria-pressed="true">Show seconds</button>
+      <button class="chip" id="bfs" type="button">Full screen</button>
+    </div>
+  </section>
+
+  <h2>World clocks</h2>
+  <div class="world" id="world"></div>
+
+  <h2>Alarm</h2>
+  <div class="alarm">
+    <label for="atime">Alarm time</label>
+    <input type="time" id="atime">
+    <button class="btn" id="aset" type="button">Set alarm</button>
+    <button class="btn stop" id="astop" type="button" hidden>Stop alarm</button>
+    <p class="astat" id="astat" role="status">No alarm set.</p>
+  </div>
+</div></main>
+
+<footer>&copy; <span id="year"></span> Samarjeet Singh</footer>
+
+<script>
+const $ = s => document.querySelector(s), rnd = n => Math.random() * n, pad = n => String(n).padStart(2, "0");
+$("#year").textContent = new Date().getFullYear();
+
+// ===== Digital clock =====
+let h24 = false, showSec = true, alarm = null, ringing = false, beepT = null, ringStop = null, actx = null, lastSec = -1;
+try { h24 = localStorage.getItem("clock-24") === "1"; alarm = localStorage.getItem("clock-alarm") || null; } catch (e) {}
+const CITIES = [["Delhi", "Asia/Kolkata"], ["London", "Europe/London"], ["New York", "America/New_York"], ["Tokyo", "Asia/Tokyo"]];
+$("#world").innerHTML = CITIES.map(([n]) => `<div class="city"><small>${n}</small><b>--:--</b></div>`).join("");
+const cityEls = [...document.querySelectorAll(".city b")];
+const fmts = {};
+const fmt = (tz, is24) => fmts[tz + is24] || (fmts[tz + is24] = new Intl.DateTimeFormat(is24 ? "en-GB" : "en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", hour12: !is24 }));
+
+function tick() {
+  const d = new Date(), H = d.getHours(), M = d.getMinutes(), S = d.getSeconds();
+  $("#hh").textContent = pad(h24 ? H : (H % 12 || 12));
+  $("#mm").textContent = pad(M);
+  $("#ss").textContent = pad(S);
+  $("#ampm").textContent = h24 ? "" : (H >= 12 ? "PM" : "AM");
+  if (S !== lastSec) { lastSec = S; const el = $("#ss"); el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick"); }
+  $("#date").textContent = d.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  $("#greet").textContent = H < 5 ? "Good night" : H < 12 ? "Good morning" : H < 17 ? "Good afternoon" : H < 21 ? "Good evening" : "Good night";
+  const pct = Math.floor((H * 3600 + M * 60 + S) / 864);
+  $("#pct").textContent = pct + "% of the day done"; $("#pbar").style.width = pct + "%";
+  CITIES.forEach(([, tz], i) => { cityEls[i].textContent = fmt(tz, h24).format(d); });
+  if (alarm && !ringing && alarm === pad(H) + ":" + pad(M)) ring();
+  setTimeout(tick, 1000 - d.getMilliseconds());
+}
+
+function applySeconds() {
+  $("#ss").hidden = !showSec; $("#col2").hidden = !showSec;
+  $("#bsec").setAttribute("aria-pressed", showSec);
+}
+function apply24() { $("#b24").setAttribute("aria-pressed", h24); }
+$("#b24").addEventListener("click", () => { h24 = !h24; try { localStorage.setItem("clock-24", h24 ? "1" : "0"); } catch (e) {} apply24(); tick_now(); });
+$("#bsec").addEventListener("click", () => { showSec = !showSec; applySeconds(); });
+$("#bfs").addEventListener("click", () => { const el = $("#clock"); document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen && el.requestFullscreen(); });
+if (!document.documentElement.requestFullscreen) $("#bfs").hidden = true;
+let nowTimer; function tick_now() { /* refresh display straight away after a setting change */
+  const d = new Date(), H = d.getHours();
+  $("#hh").textContent = pad(h24 ? H : (H % 12 || 12)); $("#ampm").textContent = h24 ? "" : (H >= 12 ? "PM" : "AM");
+  CITIES.forEach(([, tz], i) => { cityEls[i].textContent = fmt(tz, h24).format(d); });
+}
+
+// ===== Alarm =====
+function showAlarm() {
+  $("#astat").textContent = ringing ? "Alarm ringing! Press Stop alarm." : alarm ? `Alarm set for ${alarm}.` : "No alarm set.";
+  $("#aset").textContent = alarm ? "Change alarm" : "Set alarm";
+  $("#astop").hidden = !ringing && !alarm; $("#astop").textContent = ringing ? "Stop alarm" : "Clear alarm";
+}
+function beep() {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = "square"; o.frequency.value = 880; g.gain.value = .08; o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + .25);
+  } catch (e) {}
+}
+function ring() {
+  ringing = true; alarm = null; try { localStorage.removeItem("clock-alarm"); } catch (e) {}
+  $("#clock").classList.add("ring"); beep(); beepT = setInterval(beep, 700); ringStop = setTimeout(stopRing, 60000); showAlarm();
+}
+function stopRing() { ringing = false; clearInterval(beepT); clearTimeout(ringStop); $("#clock").classList.remove("ring"); showAlarm(); }
+$("#aset").addEventListener("click", () => {
+  const v = $("#atime").value; if (!v) { $("#astat").textContent = "Pick a time first."; return; }
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch (e) {}
+  alarm = v; try { localStorage.setItem("clock-alarm", v); } catch (e) {} showAlarm();
+});
+$("#astop").addEventListener("click", () => { if (ringing) stopRing(); else { alarm = null; try { localStorage.removeItem("clock-alarm"); } catch (e) {} showAlarm(); } });
+if (alarm) $("#atime").value = alarm;
+apply24(); applySeconds(); showAlarm(); tick();
+
+// ===== Background: twinkling stars, floating symbols, shooting stars =====
+let calm = false; try { calm = localStorage.getItem("calm") === "1"; } catch (e) {}
+if (calm) document.documentElement.classList.add("calm");
+const bg = $("#bg"), bx = bg.getContext("2d");
+const COLORS = ["#ffd23f", "#19d3ff", "#ff7a1a", "#7dff4f"], GLYPHS = ["12:00", "AM", "PM", ":", "09:41", "</>", "JS", "01"];
+let W, H, S = [], G = [], SH = [];
+const glyph = init => ({ x: rnd(W), y: init ? rnd(H) : H + 30, vy: -(.2 + rnd(.4)), rot: rnd(6.28), vr: rnd(.012) - .006, size: 18 + rnd(26), c: COLORS[rnd(4) | 0], t: GLYPHS[rnd(GLYPHS.length) | 0], a: .14 + rnd(.2) });
+function size() {
+  const d = devicePixelRatio || 1; W = innerWidth; H = innerHeight;
+  bg.width = W * d; bg.height = H * d; bx.setTransform(d, 0, 0, d, 0, 0);
+  S = Array.from({ length: Math.min(130, W * H / 9000 | 0) }, () => ({ x: rnd(W), y: rnd(H), r: .4 + rnd(1.2), t: rnd(6.28), sp: .01 + rnd(.03) }));
+  G = Array.from({ length: Math.min(18, W * H / 55000 + 6 | 0) }, () => glyph(true));
+}
+function drawBg() {
+  bx.clearRect(0, 0, W, H); bx.fillStyle = "#fff";
+  for (const s of S) { s.t += s.sp; bx.globalAlpha = .4 + .6 * Math.abs(Math.sin(s.t)); bx.beginPath(); bx.arc(s.x, s.y, s.r, 0, 6.283); bx.fill(); }
+  bx.textAlign = "center"; bx.textBaseline = "middle";
+  for (let i = 0; i < G.length; i++) {
+    const g = G[i]; g.y += g.vy; g.rot += g.vr; if (g.y < -40) G[i] = glyph(false);
+    bx.save(); bx.translate(g.x, g.y); bx.rotate(g.rot); bx.globalAlpha = g.a; bx.fillStyle = g.c;
+    bx.font = `700 ${g.size}px "Bricolage Grotesque", monospace`; bx.fillText(g.t, 0, 0); bx.restore();
+  }
+  if (!calm && Math.random() < .008 && SH.length < 2) SH.push({ x: W * .2 + rnd(W * .8), y: rnd(H * .4), vx: -(9 + rnd(5)), vy: 5 + rnd(3) });
+  for (let i = SH.length - 1; i >= 0; i--) {
+    const s = SH[i]; s.x += s.vx; s.y += s.vy;
+    const tx = s.x - s.vx * 7, ty = s.y - s.vy * 7, g = bx.createLinearGradient(s.x, s.y, tx, ty);
+    g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    bx.globalAlpha = 1; bx.strokeStyle = g; bx.lineWidth = 2.2; bx.beginPath(); bx.moveTo(s.x, s.y); bx.lineTo(tx, ty); bx.stroke();
+    if (s.x < -100 || s.y > H + 100) SH.splice(i, 1);
+  }
+  bx.globalAlpha = 1;
+  if (!calm) requestAnimationFrame(drawBg);
+}
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); if (calm) drawBg(); }, 200); });
+size(); drawBg();
+</script>
+</body>
+</html>

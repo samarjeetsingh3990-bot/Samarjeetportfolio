@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samarjeet Singh | HDCA Portfolio</title>
+<link hr
+ef="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1b4d;--bg2:#10286b;--card:#12296e;--line:#2f50b8;--text:#ffffff;--muted:#c3d3ff;--gold:#ffd23f;--coral:#ff7a1a;--mint:#19d3ff;--lime:#7dff4f;--ink:#0a1b4d}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:1}
+main section:nth-of-type(even){background:rgba(16,40,107,.6)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+section{padding:96px 0}
+h1,h2,h3,.logo{font-family:"Bricolage Grotesque",system-ui,sans-serif}
+h2.title{font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.15;margin-bottom:44px;display:inline-block;position:relative;padding-bottom:12px}
+h2.title::after{content:"";position:absolute;left:0;bottom:0;width:64%;height:6px;border-radius:3px;background:var(--gold);transform-origin:left;transform:scaleX(0);transition:transform .9s .3s cubic-bezier(.2,.8,.2,1)}
+.in h2.title::after,h2.title.in::after{transform:scaleX(1)}
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,27,77,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.25rem;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:8px 8px 8px 2px;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-style:normal;font-size:.95rem}
+.links{display:flex;gap:6px;list-style:none}
+.links a{display:block;padding:6px 14px;border-radius:999px;color:var(--muted);font-size:.95rem;transition:.2s}
+.links a:hover{color:var(--text)}
+.links a.active{background:var(--gold);color:var(--ink);font-weight:700}
+.motion{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.motion:hover{border-color:var(--gold)}
+.burger{display:none;background:none;border:0;color:var(--text);font-size:1.6rem;cursor:pointer}
+.progress{position:absolute;bottom:-1px;left:0;height:3px;width:0;background:var(--coral)}
+/* hero */
+#home{min-height:100vh;display:flex;align-items:center;padding:110px 0 70px}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center}
+.hello{color:var(--muted);font-size:1.1rem}
+h1{font-size:clamp(2.8rem,8vw,5.4rem);line-height:1;font-weight:800;margin:8px 0 14px;letter-spacing:-.02em}
+.role{font-size:1.45rem;font-weight:700;min-height:2.3rem;color:var(--lime)}
+.role em{font-style:normal;color:var(--muted);font-weight:500}
+.cursor{display:inline-block;width:3px;height:1.4rem;background:var(--gold);margin-left:4px;vertical-align:middle;animation:blink 1s steps(1) infinite}
+.intro{color:var(--muted);max-width:50ch;margin:16px 0 28px}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{padding:13px 28px;border-radius:12px 12px 12px 3px;font-weight:700;border:2px solid var(--gold);transition:transform .2s,box-shadow .2s;cursor:pointer;font-family:inherit;font-size:1rem}
+.btn.fill{background:var(--gold);color:var(--ink)}
+.btn.line{background:transparent;color:var(--gold)}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--coral)}
+.mail{display:flex;align-items:center;gap:10px;margin-top:20px;color:var(--muted);font-size:.95rem;word-break:break-word}
+.mi{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);color:var(--gold);flex:none}
+.mail a{color:var(--text);border-bottom:2px solid var(--gold)}
+.social{display:flex;gap:12px;margin-top:22px}
+.social a{width:46px;height:46px;border-radius:12px 12px 12px 3px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-weight:700;color:var(--muted);transition:.25s}
+.social a svg{display:block}
+.social a:hover{border-color:transparent;transform:translateY(-5px) rotate(-6deg)}
+.social .ig:hover{background:#e4405f;color:#fff}
+.social .sc:hover{background:#fffc00;color:#111}
+.social .wa:hover{background:#25d366;color:#06240f}
+.photo{justify-self:center;position:relative;width:min(330px,78vw);aspect-ratio:4/5}
+.photo::before{content:"";position:absolute;inset:0;transform:translate(16px,16px);border:3px solid var(--gold);border-radius:999px 999px 24px 24px;transition:transform .4s}
+.photo:hover::before{transform:translate(8px,8px)}
+.photo .img{position:absolute;inset:0;border-radius:999px 999px 24px 24px;overflow:hidden;background:var(--card);display:grid;place-items:center;animation:float 6s ease-in-out infinite}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo .ini{font-family:"Bricolage Grotesque",sans-serif;font-size:5.5rem;font-weight:800;color:var(--gold)}
+.chip{position:absolute;padding:6px 14px;border-radius:999px;font-weight:700;font-size:.85rem;background:var(--coral);color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.4);animation:float 5s ease-in-out infinite}
+.chip.a{left:-26px;top:18%}.chip.b{right:-22px;bottom:16%;background:var(--lime);color:var(--ink);animation-delay:-2s}
+/* ribbon */
+.ribbon{background:var(--coral);color:var(--ink);overflow:hidden;white-space:nowrap;transform:rotate(-1.2deg);margin:-8px -20px 0;position:relative;z-index:2}
+.ribbon div{display:inline-block;padding:14px 0;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.15rem;animation:marq 30s linear infinite}
+.ribbon span{margin:0 22px}.ribbon span:nth-child(4n+2){color:#fff}
+/* about */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:48px}
+.about p{color:var(--muted);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:22px;transition:transform .25s,box-shadow .25s}
+.stat:hover{transform:translate(-4px,-4px);box-shadow:6px 6px 0 var(--mint)}.stat:nth-child(2):hover{box-shadow:6px 6px 0 var(--coral)}.stat:nth-child(3):hover{box-shadow:6px 6px 0 var(--lime)}.stat:nth-child(4):hover{box-shadow:6px 6px 0 var(--gold)}.stat:nth-child(2) b{color:var(--coral)}.stat:nth-child(3) b{color:var(--lime)}.stat:nth-child(4) b{color:var(--mint)}
+.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:2.4rem;line-height:1.1;color:var(--gold)}
+.stat small{color:var(--muted)}
+/* skills */
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:26px 56px}
+.sk .row{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:700}
+.sk .row span:last-child{color:var(--gold)}
+.bar{height:14px;background:var(--card);-webkit-mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 4px),transparent calc(10% - 4px) 10%);mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 4px),transparent calc(10% - 4px) 10%)}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.sk:nth-child(5n+2) .bar i{background:var(--coral)}.sk:nth-child(5n+3) .bar i{background:var(--mint)}.sk:nth-child(5n+4) .bar i{background:var(--lime)}.sk:nth-child(5n+5) .bar i{background:#ff4d4d}
+/* timeline */
+.tl{border-left:2px dashed var(--line);margin-left:10px;padding-left:32px}
+.tl .item{position:relative;margin-bottom:32px}
+.tl .item::before{content:"";position:absolute;left:-42px;top:7px;width:16px;height:16px;transform:rotate(45deg);background:var(--gold);border-radius:3px}.tl .item:nth-child(4n+2)::before{background:var(--coral)}.tl .item:nth-child(4n+3)::before{background:var(--mint)}.tl .item:nth-child(4n+4)::before{background:var(--lime)}
+.tl small{color:var(--lime);font-weight:700}
+.tl h3{font-size:1.2rem}
+.tl p{color:var(--muted)}
+/* projects */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:30px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translate(-6px,-6px);box-shadow:8px 8px 0 var(--coral);border-color:var(--coral)}.card:nth-child(2):hover{box-shadow:8px 8px 0 var(--mint);border-color:var(--mint)}.card:nth-child(3):hover{box-shadow:8px 8px 0 var(--lime);border-color:var(--lime)}.card:nth-child(4):hover{box-shadow:8px 8px 0 var(--gold);border-color:var(--gold)}.card:nth-child(5):hover{box-shadow:8px 8px 0 var(--mint);border-color:var(--mint)}
+.card h3{font-size:1.35rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.95rem}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.tags span{font-size:.8rem;font-weight:700;padding:3px 12px;border-radius:999px;background:rgba(25,211,255,.18);color:var(--mint)}
+.card.clickable{cursor:pointer;display:block}
+.open-hint{display:inline-block;margin-top:16px;font-weight:700;color:var(--gold);border-bottom:2px solid var(--gold)}
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:48px}
+.contact ul{list-style:none;color:var(--muted)}
+.contact li{margin-bottom:16px}.contact li b{display:block;color:var(--text)}
+.contact a{border-bottom:2px solid var(--gold)}
+form{display:grid;gap:14px}
+input,textarea{width:100%;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:6px;color:var(--text);font:inherit}
+input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:4px 4px 0 var(--gold)}
+textarea{min-height:130px;resize:vertical}
+.msg{min-height:1.4rem;font-size:.9rem}.msg.err{color:var(--coral)}.msg.ok{color:var(--mint)}
+footer{text-align:center;padding:30px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+#top{z-index:60;position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:12px 12px 12px 3px;border:0;background:var(--gold);color:var(--ink);font-size:1.3rem;font-weight:800;cursor:pointer;opacity:0;pointer-events:none;transition:.3s}
+#top.show{opacity:1;pointer-events:auto}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+@keyframes float{50%{transform:translateY(-12px)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes marq{to{transform:translateX(-50%)}}
+@media(max-width:820px){
+ .burger{display:block}
+ .links{position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .35s}
+ .links.open{max-height:360px;padding:8px 12px}.links a{padding:12px 14px}
+ .hero,.about,.contact,.skills, .photo{order:-1}section{padding:72px 0}.chip.a{left:-8px}.chip.b{right:-8px}
+}
+.calm *,.calm *::before{animation:none!important;transition:none!important}.calm .rv{opacity:1;transform:none}.calm h2.title::after{transform:scaleX(1)}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<header>
+  <div class="wrap"><nav>
+    <a href="#home" class="logo"><i>S</i>Samarjeet</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+    <ul class="links" id="links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="motion" id="motionBtn" type="button" aria-pressed="true">Animations: On</button>
+  </nav></div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main>
+<section id="home"><div class="wrap hero">
+  <div>
+    <p class="hello">Hello, it’s me</p>
+    <h1>Samarjeet Singh</h1>
+    <p class="role"><em>And I’m a</em> <span id="typed"></span><i class="cursor"></i></p>
+    <p class="intro">I’m an HDCA student at HIIT Ambala. I enjoy learning new technologies and designing clean, responsive websites with HTML, CSS and JavaScript.</p>
+    <div class="btns">
+      <a href="#projects" class="btn fill">See my work</a>
+      <a href="#contact" class="btn line">Contact me</a>
+    </div>
+    <p class="mail"><span class="mi" role="img" aria-label="Email"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:samarjeetsingh3990@gmail.com">samarjeetsingh3990@gmail.com</a></p>
+    <div class="social">
+      <a class="ig" href="https://instagram.com/singh_samar.0110" target="_blank" rel="noopener" aria-label="Instagram: singh_samar.0110" title="Instagram: singh_samar.0110"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a>
+      <a class="sc" href="https://snapchat.com/add/singh_samar00" target="_blank" rel="noopener" aria-label="Snapchat: singh_samar00" title="Snapchat: singh_samar00"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.419-.015h.06z"/></svg></a>
+      <a class="wa" href="https://wa.me/919053490634" target="_blank" rel="noopener" aria-label="WhatsApp" title="Chat on WhatsApp"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+    </div>
+  </div>
+  <div class="photo">
+    <div class="img">
+      <!-- Put your photo in this folder and name it photo.jpg -->
+      <img src="https://www.shutterstock.com/image-vector/portrait-young-sikh-man-head-260nw-2445345133.jpg" alt="Samarjeet Singh" onerror="this.remove()">
+      <span class="ini">SS</span>
+    </div>
+    <span class="chip a">HTML + CSS + JS</span><span class="chip b">AI learner</span>
+  </div>
+</div></section>
+
+<div class="ribbon" aria-hidden="true"><div id="ribbon"></div></div>
+
+<section id="about"><div class="wrap">
+  <h2 class="title rv">About me</h2>
+  <div class="about">
+    <div class="rv">
+      <p>I’m from Ambala, Haryana, and I’m studying the Hardware Diploma in Computer Applications (HDCA) at HIIT Ambala.</p>
+      <p>I have learned HTML, CSS and JavaScript, and I completed two AI courses (Be10X and Outskill) and a typing course. This portfolio, my calculator, my to-do list, my Snake game and my digital clock are my first projects, and I’m looking forward to building more.</p>
+    </div>
+    <div class="stats rv">
+      <div class="stat"><b data-n="4">0</b><small>Courses completed</small></div>
+      <div class="stat"><b data-n="3">0</b><small>Web languages</small></div>
+      <div class="stat"><b data-n="2">0</b><small>AI courses</small></div>
+      <div class="stat"><b data-n="5">0</b><small>Projects built</small></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <h2 class="title rv">My skills</h2>
+  <div class="skills" id="skillGrid"></div>
+</div></section>
+
+<section id="education"><div class="wrap">
+  <h2 class="title rv">My education</h2>
+  <div class="tl">
+    <div class="item rv"><small>Currently studying</small><h3>Hardware Diploma in Computer Applications (HDCA)</h3><p>HIIT, Ambala. Programming, web design, databases and computer hardware.</p></div>
+    <div class="item rv"><small>Currently studying</small><h3>Class XI</h3><p>Secondary school, Ambala</p></div>
+    <div class="item rv"><small>Completed</small><h3>Class X</h3><p>St. Joseph School, Ambala City</p></div>
+    <div class="item rv"><small>Course</small><h3>HTML, CSS and JavaScript</h3><p>Web development basics: page structure, styling and interaction.</p></div>
+    <div class="item rv"><small>Courses</small><h3>AI courses: Be10X and Outskill</h3><p>Learned how to use AI tools for study and work.</p></div>
+    <div class="item rv"><small>Course</small><h3>Typing course</h3><p>Two-month course to build typing speed and accuracy.</p></div>
+  </div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <h2 class="title rv">My projects</h2>
+  <div class="grid">
+    <article class="card rv"><h3>Portfolio Website</h3><p>This responsive dark-theme portfolio with a typing intro, scroll animations, skill meters and a contact form that opens WhatsApp.</p><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></article>
+    <a class="card rv clickable" href="calculator.html"><h3>Calculator</h3><p>A working calculator with the four basic operations, percent, decimals, plus/minus, backspace and keyboard support. It opens on its own screen.</p><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><span class="open-hint">Tap to open the calculator</span></a>
+    <a class="card rv clickable" href="todo.html"><h3>To-Do List</h3><p>Add tasks, tick them off, edit or delete them, and filter by active or done. A progress bar shows how much you have finished, and your tasks are saved in your browser.</p><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><span class="open-hint">Tap to open the to-do list</span></a>
+    <a class="card rv clickable" href="game.html"><h3>Snake Game</h3><p>A mini game: steer the snake to eat apples and grow longer without hitting the walls or yourself. It gets faster as your score rises and saves your best score.</p><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><span class="open-hint">Tap to play the game</span></a>
+    <a class="card rv clickable" href="clock.html"><h3>Digital Clock</h3><p>A live digital clock with date and greeting, a 12 or 24 hour switch, full screen mode, world clocks for four cities and an alarm that beeps.</p><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><span class="open-hint">Tap to open the clock</span></a>
+    <article class="card rv"><h3>Next project</h3><p>Coming soon. I’m planning to build more web pages as I keep learning.</p><div class="tags"><span>In progress</span></div></article>
+  </div>
+
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2 class="title rv">Contact me</h2>
+  <div class="contact">
+    <ul class="rv">
+      <li><b>Email</b><a href="mailto:samarjeetsingh3990@gmail.com">samarjeetsingh3990@gmail.com</a></li>
+      <li><b>WhatsApp</b>Use the form and your message opens in WhatsApp</li>
+      <li><b>Location</b>Ambala, Haryana, India</li>
+    </ul>
+    <form id="form" class="rv" novalidate>
+      <input id="name" placeholder="Your name" aria-label="Your name">
+      <input id="email" type="email" placeholder="Your email (optional)" aria-label="Your email (optional)">
+      <textarea id="message" placeholder="Your message" aria-label="Your message"></textarea>
+      <button class="btn fill" type="submit">Send on WhatsApp</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </div>
+</div></section>
+</main>
+
+<footer>&copy; <span id="year"></span> Samarjeet Singh. Built with HTML, CSS and JavaScript.</footer>
+<button id="top" aria-label="Back to top">&uarr;</button>
+
+<script>
+// ===== EDIT HERE =====
+const WHATSAPP = "919053490634"; // country code + number, no + or spaces
+const ROLES = ["Web Designer", "HDCA Student", "AI Learner"];
+const SKILLS = [["HTML",96],["CSS",86],["JavaScript",80],["Typing",100],["AI Tools",96]];
+// =====================
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+// Typing effect
+let r = 0, c = 0, del = false;
+(function type(){
+  const w = ROLES[r];
+  $("#typed").textContent = w.slice(0, c);
+  if (!del && c === w.length) { del = true; return setTimeout(type, 1400); }
+  if (del && c === 0) { del = false; r = (r + 1) % ROLES.length; }
+  c += del ? -1 : 1;
+  setTimeout(type, del ? 45 : 90);
+})();
+
+// Scrolling ribbon
+const words = ["HTML","CSS","JavaScript","AI tools","Typing","HDCA","Web design","Be10X","Outskill"];
+const strip = words.map(w => `<span>${w}</span><span>&#9670;</span>`).join("");
+$("#ribbon").innerHTML = strip + strip + strip + strip;
+
+// Skills
+$("#skillGrid").innerHTML = SKILLS.map(([n,l]) =>
+  `<div class="sk rv"><div class="row"><span>${n}</span><span>${l}%</span></div><div class="bar"><i data-w="${l}"></i></div></div>`).join("");
+
+// Scroll reveal, skill meters, counters
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add("in");
+  e.target.querySelectorAll("[data-w]").forEach(b => b.style.width = b.dataset.w + "%");
+  e.target.querySelectorAll("[data-n]").forEach(count);
+  io.unobserve(e.target);
+}), { threshold: .2 });
+$$(".rv").forEach(el => io.observe(el));
+function count(el){
+  const to = +el.dataset.n; let v = 0;
+  const t = setInterval(() => { v += Math.max(1, to / 40); if (v >= to) { v = to; clearInterval(t); } el.textContent = Math.round(v) + "+"; }, 35);
+}
+
+// Mobile menu
+const links = $("#links"), burger = $("#burger");
+burger.onclick = () => { const o = links.classList.toggle("open"); burger.setAttribute("aria-expanded", o); };
+$$("#links a").forEach(a => a.onclick = () => { links.classList.remove("open"); burger.setAttribute("aria-expanded", false); });
+
+// Active link, progress bar, back-to-top
+const secs = $$("main section"), navA = $$("#links a");
+addEventListener("scroll", () => {
+  const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
+  $("#progress").style.width = (y / h * 100) + "%";
+  $("#top").classList.toggle("show", y > 500);
+  let cur = secs[0].id;
+  secs.forEach(s => { if (y + 120 >= s.offsetTop) cur = s.id; });
+  navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + cur));
+}, { passive: true });
+$("#top").onclick = () => scrollTo({ top: 0, behavior: "smooth" });
+
+// Contact form: checks the fields, then opens WhatsApp with the message ready to send
+$("#form").addEventListener("submit", e => {
+  e.preventDefault();
+  const n = $("#name").value.trim(), m = $("#email").value.trim(), t = $("#message").value.trim(), out = $("#msg");
+  if (!n || !t) { out.className = "msg err"; out.textContent = "Please enter your name and a message."; return; }
+  if (m && !/^\S+@\S+\.\S+$/.test(m)) { out.className = "msg err"; out.textContent = "Please enter a valid email address, or leave it empty."; return; }
+  const text = `Hello Samarjeet, I’m ${n}.\n\n${t}` + (m ? `\n\nMy email: ${m}` : "");
+  out.className = "msg ok"; out.textContent = "Opening WhatsApp…";
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+});
+// Animated background: twinkling stars, floating code symbols, network, shooting stars, mouse glow, click ripples
+const cv = $("#bg"), cx = cv.getContext("2d");
+const COLORS = ["#ffd23f", "#19d3ff", "#ff7a1a", "#7dff4f"], GLYPHS = ["</>", "{ }", "#", "JS", "</", "/>", "( )", "=>", "AI", "01"];
+const rnd = n => Math.random() * n, pick = a => a[Math.random() * a.length | 0];
+let W, H, P = [], S = [], G = [], SH = [], R = [], mouse = { x: -999, y: -999, on: false }, sy = 0, calm = false, raf;
+try { calm = localStorage.getItem("calm") === "1"; } catch (e) {}
+const motionBtn = $("#motionBtn");
+function setCalm(v) {
+  calm = v; document.documentElement.classList.toggle("calm", v);
+  motionBtn.textContent = v ? "Animations: Off" : "Animations: On"; motionBtn.setAttribute("aria-pressed", !v);
+  try { localStorage.setItem("calm", v ? "1" : "0"); } catch (e) {}
+  cancelAnimationFrame(raf); drawBg();
+}
+motionBtn.onclick = () => setCalm(!calm);
+const newGlyph = init => ({ x: rnd(W), y: init ? rnd(H) : H + 30, vy: -(.15 + rnd(.35)), rot: rnd(6.28), vr: rnd(.01) - .005, size: 16 + rnd(22), c: pick(COLORS), t: pick(GLYPHS), a: .12 + rnd(.18) });
+function sizeBg() {
+  const d = devicePixelRatio || 1; W = innerWidth; H = innerHeight;
+  cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
+  const area = W * H;
+  P = Array.from({ length: Math.min(55, area / 26000 | 0) }, () => ({ x: rnd(W), y: rnd(H), vx: rnd(.5) - .25, vy: rnd(.5) - .25, r: 1.6 + rnd(2.2), c: pick(COLORS) }));
+  S = Array.from({ length: Math.min(140, area / 9000 | 0) }, () => ({ x: rnd(W), y: rnd(H), r: .4 + rnd(1.2), z: .1 + rnd(.5), t: rnd(6.28), sp: .01 + rnd(.03) }));
+  G = Array.from({ length: Math.min(16, area / 60000 + 6 | 0) }, () => newGlyph(true));
+}
+function drawBg() {
+  cx.clearRect(0, 0, W, H);
+  // twinkling stars with scroll parallax
+  cx.fillStyle = "#fff";
+  for (const s of S) {
+    s.t += s.sp; const y = ((s.y - sy * s.z) % H + H) % H;
+    cx.globalAlpha = .4 + .6 * Math.abs(Math.sin(s.t)); cx.beginPath(); cx.arc(s.x, y, s.r, 0, 6.283); cx.fill();
+  }
+  cx.globalAlpha = 1;
+  // soft glow that follows the mouse
+  if (mouse.on) {
+    const g = cx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 170);
+    g.addColorStop(0, "rgba(25,211,255,.22)"); g.addColorStop(1, "rgba(25,211,255,0)");
+    cx.fillStyle = g; cx.fillRect(mouse.x - 170, mouse.y - 170, 340, 340);
+  }
+  // floating code symbols
+  cx.textAlign = "center"; cx.textBaseline = "middle";
+  for (let i = 0; i < G.length; i++) {
+    const g = G[i]; g.y += g.vy; g.rot += g.vr; if (g.y < -40) G[i] = newGlyph(false);
+    cx.save(); cx.translate(g.x, g.y); cx.rotate(g.rot); cx.globalAlpha = g.a; cx.fillStyle = g.c;
+    cx.font = `700 ${g.size}px "Bricolage Grotesque", monospace`; cx.fillText(g.t, 0, 0); cx.restore();
+  }
+  cx.globalAlpha = 1;
+  // connected dots that move away from the mouse
+  for (let i = 0; i < P.length; i++) {
+    const a = P[i]; a.x += a.vx; a.y += a.vy;
+    if (a.x < 0 || a.x > W) a.vx *= -1;
+    if (a.y < 0 || a.y > H) a.vy *= -1;
+    const dx = a.x - mouse.x, dy = a.y - mouse.y, dm = Math.hypot(dx, dy);
+    if (dm > 0 && dm < 120) { a.x += dx / dm * 1.4; a.y += dy / dm * 1.4; }
+    cx.fillStyle = a.c; cx.beginPath(); cx.arc(a.x, a.y, a.r, 0, 6.283); cx.fill();
+    for (let j = i + 1; j < P.length; j++) {
+      const b = P[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 140) { cx.strokeStyle = `rgba(130,170,255,${.4 * (1 - d / 140)})`; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(b.x, b.y); cx.stroke(); }
+    }
+  }
+  // shooting stars
+  if (!calm && Math.random() < .008 && SH.length < 2) SH.push({ x: W * .2 + rnd(W * .8), y: rnd(H * .4), vx: -(9 + rnd(5)), vy: 5 + rnd(3) });
+  for (let i = SH.length - 1; i >= 0; i--) {
+    const s = SH[i]; s.x += s.vx; s.y += s.vy;
+    const tx = s.x - s.vx * 7, ty = s.y - s.vy * 7, g = cx.createLinearGradient(s.x, s.y, tx, ty);
+    g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    cx.strokeStyle = g; cx.lineWidth = 2.2; cx.beginPath(); cx.moveTo(s.x, s.y); cx.lineTo(tx, ty); cx.stroke();
+    if (s.x < -100 || s.y > H + 100) SH.splice(i, 1);
+  }
+  // click / tap ripples
+  for (let i = R.length - 1; i >= 0; i--) {
+    const r = R[i]; r.r += 3.2; r.a -= .018;
+    if (r.a <= 0) { R.splice(i, 1); continue; }
+    cx.strokeStyle = r.c; cx.globalAlpha = r.a; cx.lineWidth = 2.5; cx.beginPath(); cx.arc(r.x, r.y, r.r, 0, 6.283); cx.stroke();
+  }
+  cx.globalAlpha = 1;
+  if (!calm) raf = requestAnimationFrame(drawBg);
+}
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { sizeBg(); if (calm) drawBg(); }, 200); });
+addEventListener("scroll", () => { sy = scrollY; }, { passive: true });
+addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; }, { passive: true });
+addEventListener("mouseout", () => { mouse.on = false; mouse.x = mouse.y = -999; });
+addEventListener("pointerdown", e => { if (!calm) R.push({ x: e.clientX, y: e.clientY, r: 0, a: .8, c: pick(COLORS) }); });
+document.documentElement.classList.toggle("calm", calm);
+motionBtn.textContent = calm ? "Animations: Off" : "Animations: On"; motionBtn.setAttribute("aria-pressed", !calm);
+sizeBg(); drawBg();
+$("#year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
